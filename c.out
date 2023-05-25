@@ -1,0 +1,4 @@
+mode: set
+github.com/chyiyaqing/gomw/examples/base_demo/split.go:6.45,9.13 2 1
+github.com/chyiyaqing/gomw/examples/base_demo/split.go:9.13,13.3 3 1
+github.com/chyiyaqing/gomw/examples/base_demo/split.go:14.2,15.8 2 1
