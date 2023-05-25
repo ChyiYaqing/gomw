@@ -36,11 +36,11 @@ func main() {
 	}
 
 	// 创建Pod
-	podName := "example-pod"
-	containerName := "example-container"
+	podName := "example-pod-1"
+	containerName := podName
 	image := "nginx:latest"
 
-	pod := &apiv1.Pod{
+	pod := apiv1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: podName,
 		},
@@ -52,14 +52,14 @@ func main() {
 		},
 	}
 
-	createdPod, err := clientset.CoreV1().Pods(apiv1.NamespaceDefault).Create(context.Background(), pod, metav1.CreateOptions{})
+	createdPod, err := clientset.CoreV1().Pods(apiv1.NamespaceDefault).Create(context.Background(), &pod, metav1.CreateOptions{})
 	if err != nil {
 		panic(err.Error())
 	}
 
 	// 监听事件日志
 	ctx := context.Background()
-	fieldSelector := fmt.Sprintf("involvedObject.name=%s", createdPod.Name)
+	fieldSelector := fmt.Sprintf("involvedObject.uid=%s", createdPod.UID)
 	timeoutSeconds := int64(30) // 超时时间
 
 	watcher, err := clientset.CoreV1().Events(apiv1.NamespaceDefault).Watch(ctx, metav1.ListOptions{
@@ -80,10 +80,16 @@ func main() {
 
 		if errorEvent.InvolvedObject.Name == createdPod.Name && errorEvent.Source.Component == "kubelet" {
 			if strings.Contains(errorEvent.Message, "Back-off pulling image") && strings.Contains(errorEvent.Message, image) {
-				fmt.Println("下载地址失败")
+				fmt.Println("下载地址验证失败")
 				break
 			}
-			fmt.Println(errorEvent.Message)
+			if strings.Contains(errorEvent.Message, "Successfully pulled image") && strings.Contains(errorEvent.Message, image) {
+				fmt.Println("下载地址验证成功")
+				break
+			}
+			// fmt.Printf("%+v\n", errorEvent)
+			// fmt.Println(errorEvent.CreationTimestamp.Format(time.RFC3339))
+			// fmt.Println(">>> " + string(errorEvent.UID) + " | " + errorEvent.Reason + " | " + errorEvent.Message)
 			// if strings.Contains(errorEvent.Message, "ErrImagePull") {
 			// 	fmt.Printf("+%v\n", errorEvent)
 			// }
