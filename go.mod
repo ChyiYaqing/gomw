@@ -3,6 +3,7 @@ module github.com/chyiyaqing/gomw
 go 1.20
 
 require (
+	github.com/jellydator/ttlcache/v2 v2.11.1
 	github.com/marmotedu/errors v1.0.2
 	github.com/marmotedu/sample-code v1.0.0
 	k8s.io/api v0.27.2
@@ -34,6 +35,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b // indirect
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/term v0.6.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
