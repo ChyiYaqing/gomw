@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
+	"github.com/stretchr/testify/assert" // Testify 断言库，主要在提供断言功能之外，提供mock功能
 )
 
 func TestHello(t *testing.T) {
@@ -52,4 +53,9 @@ func TestCheckUrl(t *testing.T) {
 			convey.So(ok, convey.ShouldBeTrue)
 		})
 	})
+}
+
+func TestCheckUtl2(t *testing.T) {
+	ok := CheckUrl("learnku.com")
+	assert.True(t, ok)
 }
