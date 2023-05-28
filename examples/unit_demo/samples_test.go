@@ -1,6 +1,7 @@
 package unit_demo
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
@@ -58,4 +59,20 @@ func TestCheckUrl(t *testing.T) {
 func TestCheckUtl2(t *testing.T) {
 	ok := CheckUrl("learnku.com")
 	assert.True(t, ok)
+}
+
+// 结合表格测试可以写多个测试用例
+func TestCheckUrl3(t *testing.T) {
+	assert := assert.New(t)
+	var tests = []struct {
+		input    string
+		expected bool
+	}{
+		{"xdcute.com", true},
+		{"xxx.com", false},
+	}
+	for _, test := range tests {
+		fmt.Println(test.input)
+		assert.Equal(CheckUrl(test.input), test.expected)
+	}
 }
