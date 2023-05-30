@@ -10,6 +10,7 @@ type Msg struct {
 	lastTime time.Time
 }
 
+// 超时推出逻辑
 func main() {
 	ch := make(chan int, 3)
 	timeoutCh := make(chan bool)
@@ -37,8 +38,8 @@ func main() {
 	}(timeoutCh, msgCh)
 	for {
 		select {
-		case v := <-timeoutCh:
-			fmt.Println("超时退出", v)
+		case <-timeoutCh:
+			fmt.Println("超时退出", time.Now().Format(time.RFC3339))
 			return
 		case v := <-ch:
 			msgCh <- Msg{
