@@ -54,6 +54,37 @@ func main() {
 	// 合并切片
 	combined := append(sub1, sub2...) // sub2... 是切片解构的写法，将切片解构为N各独立的元素
 	fmt.Println(combined)
+
+	// 字典 map
+	m1 := make(map[string]int)
+	m1["Tom"] = 18
+	// 声明并初始化
+	m2 := map[string]string{
+		"Sam":   "Male",
+		"Alice": "Female",
+	}
+	fmt.Println(m1, m2)
+
+	// 指针 pointer, 类型定义时使用符号*, 对于一个已经存在的变量，使用&获取该变量的地址
+	str := "Golang"
+	var p *string = &str // p 是指向str的指针
+	*p = "Hello"
+	fmt.Println(str)
+	// Go语言中，参数是按照值传递的，如果不使用指针，函数内部将会拷贝一份参数的副本，对参数的修改并不会影响到外部变量的值
+	// 如果参数使用指针，对参数的传递将会影响到外部变量
+	num := 100
+	add(num) // num 没有变化
+	fmt.Println(num)
+	realAdd(&num) // 指针传递，num被修改
+	fmt.Println(num)
+}
+
+func add(num int) {
+	num += 1
+}
+
+func realAdd(num *int) {
+	*num += 1
 }
 
 /*
