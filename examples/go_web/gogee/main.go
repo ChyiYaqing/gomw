@@ -2,21 +2,25 @@ package main
 
 import (
 	"fakegee"
-	"fmt"
 	"net/http"
 )
 
 func main() {
 	r := fakegee.New()
 	// GET() 方法添加路由
-	r.GET("/", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprintf(w, "URL.Path = %q\n", req.URL.Path)
+	r.GET("/", func(c *fakegee.Context) {
+		c.HTML(http.StatusOK, "<h1>Hello Geek</h1>")
 	})
 
-	r.GET("/hello", func(w http.ResponseWriter, req *http.Request) {
-		for k, v := range req.Header {
-			fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
-		}
+	r.GET("/hello", func(c *fakegee.Context) {
+		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Query("name"), c.Path)
+	})
+
+	r.POST("/login", func(c *fakegee.Context) {
+		c.JSON(http.StatusOK, fakegee.H{
+			"username": c.PostForm("username"),
+			"password": c.PostForm("password"),
+		})
 	})
 
 	r.Run(":1207")
