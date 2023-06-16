@@ -6,6 +6,9 @@ import (
 )
 
 type router struct {
+	// roots key eg, roots['GET'] roots['POST']
+	roots map[string]*node
+	// handlers key eg, handlers[]
 	handlers map[string]HandlerFunc
 }
 
